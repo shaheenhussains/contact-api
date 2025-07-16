@@ -11,24 +11,54 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 // Get all contacts
 app.get('/contacts', async (req, res) => {
-  const { rows } = await pool.query('SELECT * FROM contacts ORDER BY id');
+  // const { rows } = await pool.query('SELECT * FROM contacts ORDER BY id');
+  const rows = [
+    {
+        "id": 1,
+        "name": "shaheen",
+        "mobile": "0987654321",
+        "email": "shahen@gmail.com",
+        "address": "ASDF"
+    },
+    {
+        "id": 2,
+        "name": "john",
+        "mobile": "1234567899",
+        "email": "john@gamil.com",
+        "address": "4- 79 ramanathapuramsalai"
+    }
+  ];
   res.json(rows);
 });
 
 // Get contact by id
 app.get('/contacts/:id', async (req, res) => {
   const { id } = req.params;
-  const { rows } = await pool.query('SELECT * FROM contacts WHERE id = $1', [id]);
+  // const { rows } = await pool.query('SELECT * FROM contacts WHERE id = $1', [id]);
+  const rows = [{
+        "id": 2,
+        "name": "john",
+        "mobile": "1234567899",
+        "email": "john@gamil.com",
+        "address": "4- 79 ramanathapuramsalai"
+    }];
   res.status(rows[0] ? 200 : 404).json(rows[0] || { error: 'Not found' });
 });
 
 // Create
 app.post('/contacts', async (req, res) => {
   const { name, mobile, email, address } = req.body;
-  const { rows } = await pool.query(
-    `INSERT INTO contacts (name, mobile, email, address) VALUES ($1,$2,$3,$4) RETURNING *`,
-    [name, mobile, email, address]
-  );
+  // const { rows } = await pool.query(
+  //   `INSERT INTO contacts (name, mobile, email, address) VALUES ($1,$2,$3,$4) RETURNING *`,
+  //   [name, mobile, email, address]
+  // );
+  const rows = [{
+      "id": 2,
+      "name": "john",
+      "mobile": "1234567899",
+      "email": "john@gamil.com",
+      "address": "4- 79 ramanathapuramsalai"
+  }];
   res.status(201).json(rows[0]);
 });
 
